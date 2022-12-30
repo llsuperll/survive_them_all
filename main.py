@@ -41,17 +41,21 @@ class Button:
         self.rect = self.image.get_rect(center=(self.x, self.y))
         self.text_rect = self.text.get_rect(center=(self.x, self.y))
 
+    # функция отрисовки кнопки на экране
     def update(self, screen):
+        # устанавливаем фон кнопки
         if self.image is not None:
             screen.blit(self.image, self.rect)
         screen.blit(self.text, self.text_rect)
 
+    # проверяем, находится ли мышь на кнопке
     def check_input(self, pos):
         if pos[0] in range(self.rect.left, self.rect.right) and pos[1] in range(self.rect.top, self.rect.bottom):
             return True
         else:
             return False
 
+    # если навести мышь на кнопку, то цвет текста изменяется
     def change_color(self, pos):
         if pos[0] in range(self.rect.left, self.rect.right) and pos[1] in range(self.rect.top, self.rect.bottom):
             self.text = self.font.render(self.text_input, True, self.hovering_color)
@@ -59,14 +63,17 @@ class Button:
             self.text = self.font.render(self.text_input, True, self.base_color)
 
 
+# функция, запускающая саму игру
 def start_game():
     pass
 
 
+# функция, отвечающая за вкладку настроек
 def settings():
     pass
 
 
+# функция, отвечающая за главное меню
 def main_menu():
     background = load_image("Background.png")
     pygame.display.set_caption("Menu")
@@ -76,12 +83,14 @@ def main_menu():
 
     running = True
     while running:
+        # отрисовываем меню
         screen.blit(background, (0, 0))
         menu_text = load_font("font.ttf", 100).render("MAIN MENU", True, "#b68f40")
         menu_rect = menu_text.get_rect(center=(640, 100))
 
         screen.blit(menu_text, menu_rect)
 
+        # отрисовываем все кнопки и устанавливаем цвет текста
         for button in [play_button, settings_button, quit_button]:
             button.change_color(pygame.mouse.get_pos())
             button.update(screen)
