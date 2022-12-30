@@ -21,16 +21,25 @@ def load_font(name, size):
     return font
 
 
+def load_sound(name):
+    fullname = os.path.join('data', name)
+    if not os.path.isfile(fullname):
+        print(f"Звуковой файл '{fullname}' не найден")
+        sys.exit()
+    pygame.mixer.music.load(fullname)
+
+
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
+load_sound("main_theme.mp3")
 
 
 class Button:
-    def __init__(self, image_name, x, y, font_name, text, base_color, hovering_color):
+    def __init__(self, image_name, x, y, font_name, font_size, text, base_color, hovering_color):
         self.image = load_image(image_name)
         self.x = x
         self.y = y
-        self.font = load_font(font_name, 75)
+        self.font = load_font(font_name, font_size)
         self.text = text
         self.base_color = base_color
         self.hovering_color = hovering_color
@@ -70,16 +79,39 @@ def start_game():
 
 # функция, отвечающая за вкладку настроек
 def settings():
-    pass
+    background = load_image("Background.png")
+    pygame.display.set_caption("Options")
+
+    back_button = Button("Play Rect.png", 640, 550, "font.ttf", 75, "BACK", "#d7fcd4", "white")
+
+    running = True
+    while running:
+        screen.blit(background, (0, 0))
+
+        back_button.change_color(pygame.mouse.get_pos())
+        back_button.update(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if back_button.check_input(pygame.mouse.get_pos()):
+                    main_menu()
+                    running = False
+
+        pygame.display.flip()
 
 
 # функция, отвечающая за главное меню
 def main_menu():
+    # если музыка уже не играет, то запускаем её
+    if not pygame.mixer.music.get_busy():
+        pygame.mixer.music.play(-1)
     background = load_image("Background.png")
     pygame.display.set_caption("Menu")
-    play_button = Button("Play Rect.png", 640, 250, "font.ttf", "PLAY", "#d7fcd4", "white")
-    settings_button = Button("Options Rect.png", 640, 400, "font.ttf", "OPTIONS", "#d7fcd4", "white")
-    quit_button = Button("Quit Rect.png", 640, 550, "font.ttf", "QUIT", "#d7fcd4", "white")
+    play_button = Button("Play Rect.png", 640, 250, "font.ttf", 75, "PLAY", "#d7fcd4", "white")
+    settings_button = Button("Options Rect.png", 640, 400, "font.ttf", 75, "OPTIONS", "#d7fcd4", "white")
+    quit_button = Button("Quit Rect.png", 640, 550, "font.ttf", 75, "QUIT", "#d7fcd4", "white")
 
     running = True
     while running:
@@ -101,10 +133,13 @@ def main_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if play_button.check_input(pygame.mouse.get_pos()):
                     start_game()
+                    running = False
                 if settings_button.check_input(pygame.mouse.get_pos()):
                     settings()
+                    running = False
                 if quit_button.check_input(pygame.mouse.get_pos()):
                     running = False
+
         pygame.display.flip()
 
 
