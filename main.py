@@ -1,6 +1,8 @@
 import pygame
 import sys
 import os
+from level import Level
+from game_data import level_0
 
 
 def load_image(name, colorkey=None):
@@ -32,6 +34,8 @@ def load_sound(name):
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 load_sound("main_theme.mp3")
+clock = pygame.time.Clock()
+FPS = 60
 
 
 class Button:
@@ -74,7 +78,19 @@ class Button:
 
 # функция, запускающая саму игру
 def start_game():
-    pass
+    pygame.mixer.music.unload()
+    level = Level(level_0, screen)
+    pygame.display.set_caption("Game")
+
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        screen.fill("black")
+        level.run()
+        pygame.display.flip()
+        clock.tick(FPS)
 
 
 # функция, отвечающая за вкладку настроек
