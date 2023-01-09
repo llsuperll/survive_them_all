@@ -53,3 +53,16 @@ class Palm(AnimatedTile):
         # оффсет пальме нужен по той же причине, что и ящику,
         # только здесь немного другая ситуация
         self.rect.topleft = (x, offset_y)
+
+
+class Coin(AnimatedTile):
+    def __init__(self, size, x, y, path, value):
+        super().__init__(size, x, y, path)
+        self.rect = self.image.get_rect(center=(x + int(size / 2), y + int(size / 2)))
+        self.value = value
+        self.direction = pygame.math.Vector2(0, 0)
+        self.gravity = 0.8
+
+    def apply_gravity(self):
+        self.direction.y += self.gravity
+        self.rect.y += self.direction.y

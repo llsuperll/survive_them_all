@@ -3,6 +3,7 @@ import sys
 import os
 from level import Level
 from game_data import level_0
+from user_interface import UserInterface
 
 
 def load_image(name, colorkey=None):
@@ -76,19 +77,50 @@ class Button:
             self.text = self.font.render(self.text_input, True, self.base_color)
 
 
+class Game:
+    def __init__(self):
+        self.max_health = 100
+        self.current_health = 100
+        self.coins = 0
+
+        self.level = Level(level_0, screen, self.change_score)
+        self.ui = UserInterface(screen)
+
+    def change_score(self, amount):
+        self.coins += amount
+        self.level.coin_spawn()
+
+    def run(self):
+        self.level.run()
+        self.ui.show_health_bar(self.current_health, self.max_health)
+        self.ui.show_coins(self.coins)
+
+    def game_over(self):
+        pass
+
+
 # функция, запускающая саму игру
 def start_game():
-    pygame.mixer.music.unload()
-    level = Level(level_0, screen)
+    pygame.mixer.music.stop()
     pygame.display.set_caption("Game")
+    game = Game()
+    # фоновая музыка
+    level_bg_music = pygame.mixer.Sound("data/level_music.wav")
+    level_bg_music.play(loops=-1)
+    level_bg_music.set_volume(0.05)
 
     running = True
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    level_bg_music.stop()
+                    main_menu()
+                    running = False
         screen.fill("black")
-        level.run()
+        game.run()
         pygame.display.flip()
         clock.tick(FPS)
 
@@ -114,6 +146,10 @@ def settings():
                 if back_button.check_input(pygame.mouse.get_pos()):
                     main_menu()
                     running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    main_menu()
+                    running = False
 
         pygame.display.flip()
 
@@ -123,6 +159,7 @@ def main_menu():
     # если музыка уже не играет, то запускаем её
     if not pygame.mixer.music.get_busy():
         pygame.mixer.music.play(-1)
+        pygame.mixer.music.set_volume(0.1)
     background = load_image("Background.png")
     pygame.display.set_caption("Menu")
     play_button = Button("Play Rect.png", 640, 250, "font.ttf", 75, "PLAY", "#d7fcd4", "white")
