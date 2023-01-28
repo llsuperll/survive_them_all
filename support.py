@@ -29,7 +29,7 @@ def import_csv_layout(path):
 
 # импорт листа тайлов с помощью разбиения его на части (сами тайлы)
 def import_cut_graphics(path):
-    # convert_alpha() для изображений с прозрачным фоном
+    # convert_alpha() для изображений в формате png
     surface = pygame.image.load(path).convert_alpha()
     # узнаем сколько тайлов в нашем тайлсете
     tile_num_x = surface.get_width() // 64

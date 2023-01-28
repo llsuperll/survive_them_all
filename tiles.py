@@ -1,3 +1,5 @@
+import random
+
 import pygame
 from support import import_folder
 
@@ -46,6 +48,7 @@ class AnimatedTile(Tile):
         self.animate()
 
 
+# класс пальмы
 class Palm(AnimatedTile):
     def __init__(self, size, x, y, path, offset):
         super().__init__(size, x, y, path)
@@ -55,6 +58,7 @@ class Palm(AnimatedTile):
         self.rect.topleft = (x, offset_y)
 
 
+# класс монеты
 class Coin(AnimatedTile):
     def __init__(self, size, x, y, path, value):
         super().__init__(size, x, y, path)
@@ -66,3 +70,9 @@ class Coin(AnimatedTile):
     def apply_gravity(self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
+
+    # эффект вылетания монеты из врага
+    def coin_jump(self):
+        x = [64, -64]
+        self.rect.x += random.choice(x)
+        self.rect.y += 64
