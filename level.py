@@ -330,12 +330,17 @@ class Level:
         spawn_place = pos
         rnd = [i for i in range(1, 11)]
         # рандомный выбор золотой или серебряной монеты
-        if random.choice(rnd) < 4:
+        num = random.choice(rnd)
+        flag = False
+        if num < 3:
             sprite = Coin(64, spawn_place[0], spawn_place[1], "graphics/coins/gold", 5)
-        else:
+            flag = True
+        elif 3 < num < 8:
             sprite = Coin(64, spawn_place[0], spawn_place[1], "graphics/coins/silver", 1)
-        self.coin_sprites.add(sprite)
-        sprite.coin_jump()
+            flag = True
+        if flag:
+            self.coin_sprites.add(sprite)
+            sprite.coin_jump()
 
     # запуск игры
     def run(self):
