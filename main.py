@@ -365,7 +365,7 @@ def main_menu():
                     settings()
                     running = False
                 if quit_button.check_mouse_contact(pygame.mouse.get_pos()):
-                    running = False
+                    sys.exit()
 
         pygame.display.flip()
 
