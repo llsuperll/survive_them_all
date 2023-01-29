@@ -1,5 +1,4 @@
 import random
-
 import pygame
 from support import import_folder
 
