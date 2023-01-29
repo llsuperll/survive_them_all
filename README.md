@@ -1,4 +1,3 @@
-# survive_them_all
 Survive them all by Aleksey Kosarev
 =====================
 Created on python 3.9
