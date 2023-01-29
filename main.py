@@ -35,6 +35,7 @@ def load_sound(name):
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption("Survive them ALL")
+pygame.display.set_icon(pygame.image.load("graphics/spirit/attack/0.png"))
 load_sound("main_theme.mp3")
 clock = pygame.time.Clock()
 FPS = 60
