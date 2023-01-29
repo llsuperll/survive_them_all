@@ -1,6 +1,8 @@
 # survive_them_all
 Survive them all by Aleksey Kosarev
+=====================
 Created on python 3.9
+=====================
 Released on 29th January 2023
 
 Hello, dear visitor, it's the first really serious project on python that i've worked on. Survive 'em all is an arcade platform game with a simple concept. 
