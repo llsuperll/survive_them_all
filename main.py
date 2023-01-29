@@ -125,10 +125,10 @@ def start_game():
             running = False
         if game.level.win_game:
             level_bg_music.stop()
-            win_game(game.coins)
             with open("win_trophy.txt", "w") as file:
                 file.write("win")
                 file.close()
+            win_game(game.coins)
             running = False
 
         screen.fill("black")

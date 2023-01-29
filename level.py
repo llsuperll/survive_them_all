@@ -301,6 +301,9 @@ class Level:
         for enemy in self.enemies:
             if enemy.rect.bottom >= 780:
                 enemy.kill()
+        for coin in self.coin_sprites:
+            if coin.rect.bottom >= 780:
+                coin.kill()
 
     # обработка столкновения игрока и монеты
     def coin_collision(self):
