@@ -197,7 +197,7 @@ class Enemy(pygame.sprite.Sprite):
     # гравитация
     def apply_gravity(self):
         # враги появляются за картой, поэтому гравитацию применяем только когда они уже в поле зрения
-        if 10 < self.rect.x < 1270:
+        if 0 < self.rect.left < 1280:
             self.direction.y += self.gravity
             self.rect.y += self.direction.y
 

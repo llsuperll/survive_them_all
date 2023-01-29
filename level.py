@@ -302,7 +302,7 @@ class Level:
             if enemy.rect.bottom >= 780:
                 enemy.kill()
         for coin in self.coin_sprites:
-            if coin.rect.bottom >= 780:
+            if coin.rect.bottom >= 780 or coin.rect.x < 0 or coin.rect.x > 1280:
                 coin.kill()
 
     # обработка столкновения игрока и монеты
